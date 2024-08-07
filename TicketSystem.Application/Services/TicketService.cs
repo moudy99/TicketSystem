@@ -139,9 +139,49 @@ namespace TicketSystem.Application.Services
                 };
             }
         }
-        public Task<GeneralResponse<TicketDto>> GetTicketByPhoneNumberAsync(string phoneNumber)
+        public async Task<GeneralResponse<TicketDto>> GetTicketByPhoneNumberAsync(string phoneNumber)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = unitOfWork.userRepository.Find(u => u.PhoneNumber == phoneNumber);
+
+                if (user == null)
+                {
+                    return new GeneralResponse<TicketDto>
+                    {
+                        Message = "User not found.",
+                        Succeeded = false
+                    };
+                }
+
+                var ticket = unitOfWork.ticketRepository.Find(t => t.UserId == user.Id);
+
+                if (ticket == null)
+                {
+                    return new GeneralResponse<TicketDto>
+                    {
+                        Message = "Ticket not found for this user.",
+                        Succeeded = false
+                    };
+                }
+
+                var ticketDto = mapper.Map<TicketDto>(ticket);
+                return new GeneralResponse<TicketDto>
+                {
+                    Data = ticketDto,
+                    Message = "Ticket retrieved successfully.",
+                    Succeeded = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse<TicketDto>
+                {
+                    Message = "Error while retrieving the ticket.",
+                    Succeeded = false,
+                    Errors = new List<string> { ex.Message }
+                };
+            }
         }
     }
 }
