@@ -49,6 +49,7 @@ namespace TicketSystem.Presentation
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAdminRepository, AdminRepository>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
