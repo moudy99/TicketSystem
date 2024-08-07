@@ -7,10 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TicketSystem.Application.Configurations;
+using TicketSystem.Application.Interfaces.Repository;
+using TicketSystem.Application.Interfaces.Services;
 using TicketSystem.Application.Interfaces.UnitOfWork;
 using TicketSystem.Application.Mapping;
+using TicketSystem.Application.Services;
 using TicketSystem.Core.Entities;
 using TicketSystem.Infrastructure;
+using TicketSystem.Infrastructure.Repositories;
 using TicketSystem.Infrastructure.UnitOfWork;
 
 namespace TicketSystem.Presentation
@@ -43,7 +47,8 @@ namespace TicketSystem.Presentation
  .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
