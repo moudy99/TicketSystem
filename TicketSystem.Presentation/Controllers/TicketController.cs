@@ -38,11 +38,27 @@ namespace TicketSystem.Presentation.Controllers
             }
 
         }
-        [HttpGet]
+        [HttpGet("getAllTickets")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAllTickets(int page = 1, int pageSize = 5)
         {
             var response = await ticketService.GetAllTicketsAsync(page, pageSize);
+
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(new
+            {
+                Message = response.Message,
+                Errors = response.Errors
+            });
+        }
+
+        [HttpGet("getTicket")]
+        public async Task<ActionResult> GetTicketByPhoneNumber(string phoneNumber)
+        {
+            var response = await ticketService.GetTicketByPhoneNumberAsync(phoneNumber);
 
             if (response.Succeeded)
             {
