@@ -13,6 +13,8 @@ namespace TicketSystem.Application.Interfaces.Repository
 
         T Find(Expression<Func<T, bool>> criteria, string[] includes = null);
 
+        IQueryable<T> FindAllByOrder(string[] includes = null, Expression<Func<T, bool>> criteria = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+
         IQueryable<T> FindAll(string[] includes = null, Expression<Func<T, bool>> criteria = null);
         Task<IQueryable<T>> FindAllAsync(string[] includes = null, Expression<Func<T, bool>> criteria = null);
 
