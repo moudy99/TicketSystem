@@ -16,11 +16,16 @@ namespace TicketSystem.Infrastructure.UnitOfWork
         private readonly IOptions<JWT> jWT;
         private readonly IConfiguration _configuration;
         public IAdminRepository adminRepository { get; }
+
+        public IUserRepository userRepository { get; }
+
+        public ITicketRepository ticketRepository { get; }
         public UnitOfWork(ApplicationDbContext context, IConfiguration configuration, IOptions<JWT> JWT, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             this.userManager = userManager;
-
+            this.ticketRepository = new TicketRepository(context);
+            this.userRepository = new UserRepository(context);
             this.adminRepository = new AdminRepository(context, configuration, JWT, userManager);
         }
 
