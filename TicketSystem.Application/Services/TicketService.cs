@@ -39,9 +39,9 @@ namespace TicketSystem.Application.Services
                     var ticket = new Ticket
                     {
                         UserId = existingUser.Id,
-                        ImagePath = createTicket.TicketImageFile.Length > 0 ? await ImageSavingHelper.SaveOneImageAsync(createTicket.TicketImageFile, "Tickets") : "/Images/Tickets/ticket.png",
+                        ImagePath = createTicket.TicketImageFile is not null ? await ImageSavingHelper.SaveOneImageAsync(createTicket.TicketImageFile, "Tickets") : "/Images/Tickets/ticket.png",
                         CreatedAt = DateTime.Now,
-                        Number = new Guid().ToString(),
+                        Number = Guid.NewGuid().ToString()
 
                     };
 
@@ -81,7 +81,7 @@ namespace TicketSystem.Application.Services
                     var ticket = new Ticket
                     {
                         UserId = user.Id,
-                        ImagePath = createTicket.TicketImageFile.Length > 0 ? await ImageSavingHelper.SaveOneImageAsync(createTicket.TicketImageFile, "Tickets") : "/Images/Tickets/ticket.png",
+                        ImagePath = createTicket.TicketImageFile is not null ? await ImageSavingHelper.SaveOneImageAsync(createTicket.TicketImageFile, "Tickets") : "/Images/Tickets/ticket.png",
                         CreatedAt = DateTime.Now,
                         Number = Guid.NewGuid().ToString()
                     };
