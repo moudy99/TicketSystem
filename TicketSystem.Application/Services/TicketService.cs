@@ -109,11 +109,36 @@ namespace TicketSystem.Application.Services
             }
         }
 
-        public Task<GeneralResponse<IEnumerable<TicketDto>>> GetAllTicketsAsync()
+        public async Task<GeneralResponse<IEnumerable<TicketDto>>> GetAllTicketsAsync(int page, int pageSize)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var tickets = unitOfWork.ticketRepository.FindAll();
 
+
+                var paginatedList = PaginationHelper.Paginate(tickets, page, pageSize);
+                var paginationInfo = PaginationHelper.GetPaginationInfo(paginatedList);
+
+                var TicketsDTOs = mapper.Map<IEnumerable<TicketDto>>(paginatedList.Items);
+
+                return new GeneralResponse<IEnumerable<TicketDto>>
+                {
+                    Data = TicketsDTOs,
+                    Message = "Tickets retrieved successfully.",
+                    Succeeded = true,
+                    PaginationInfo = paginationInfo
+                };
+            }
+            catch (Exception ex)
+            {
+                return new GeneralResponse<IEnumerable<TicketDto>>
+                {
+                    Message = "Error while retrieving tickets.",
+                    Succeeded = false,
+                    Errors = new List<string> { ex.Message }
+                };
+            }
+        }
         public Task<GeneralResponse<TicketDto>> GetTicketByPhoneNumberAsync(string phoneNumber)
         {
             throw new NotImplementedException();
