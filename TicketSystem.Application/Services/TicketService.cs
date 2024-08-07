@@ -113,8 +113,8 @@ namespace TicketSystem.Application.Services
         {
             try
             {
-                var tickets = unitOfWork.ticketRepository.FindAll();
-
+                var tickets = unitOfWork.ticketRepository.FindAllByOrder(
+                           orderBy: q => q.OrderByDescending(t => t.TicketId));
 
                 var paginatedList = PaginationHelper.Paginate(tickets, page, pageSize);
                 var paginationInfo = PaginationHelper.GetPaginationInfo(paginatedList);

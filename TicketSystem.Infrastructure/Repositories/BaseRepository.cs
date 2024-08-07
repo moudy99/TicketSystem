@@ -48,6 +48,35 @@ namespace TicketSystem.Infrastructure.Repositories
             return query.FirstOrDefault();
         }
 
+        public IQueryable<T> FindAllByOrder(
+    string[] includes = null,
+    Expression<Func<T, bool>> criteria = null,
+    Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            if (criteria != null)
+            {
+                query = query.Where(criteria);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            return query;
+        }
+
+
         public IQueryable<T> FindAll(string[] includes = null, Expression<Func<T, bool>> criteria = null)
         {
             IQueryable<T> query = _dbSet;
