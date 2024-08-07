@@ -11,7 +11,7 @@ namespace TicketSystem.Application.Interfaces.Repository
         Task AddAsync(T entity);
 
 
-        IQueryable<T> Find(Expression<Func<T, bool>> criteria, string[] includes = null);
+        T Find(Expression<Func<T, bool>> criteria, string[] includes = null);
 
         IQueryable<T> FindAll(string[] includes = null, Expression<Func<T, bool>> criteria = null);
         Task<IQueryable<T>> FindAllAsync(string[] includes = null, Expression<Func<T, bool>> criteria = null);

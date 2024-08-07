@@ -35,7 +35,7 @@ namespace TicketSystem.Infrastructure.Repositories
             await _dbSet.AddAsync(entity);
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> criteria, string[] includes = null)
+        public T Find(Expression<Func<T, bool>> criteria, string[] includes = null)
         {
             IQueryable<T> query = _dbSet.Where(criteria);
             if (includes != null)
@@ -45,9 +45,8 @@ namespace TicketSystem.Infrastructure.Repositories
                     query = query.Include(include);
                 }
             }
-            return query;
+            return query.FirstOrDefault();
         }
-
 
         public IQueryable<T> FindAll(string[] includes = null, Expression<Func<T, bool>> criteria = null)
         {
